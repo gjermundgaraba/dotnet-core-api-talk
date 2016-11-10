@@ -1,0 +1,24 @@
+{
+  "name": "node-api-app",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "author": "Gjermund Bjaanes <bjaanes@gmail.com>",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "lodash": "^4.15.0",
+    "mongoose": "^4.5.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2"
+  }
+}
