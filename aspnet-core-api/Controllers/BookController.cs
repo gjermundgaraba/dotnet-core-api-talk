@@ -7,74 +7,75 @@ namespace WebAPIApplication.Controllers
     [Route("api/[controller]")]
     public class BookController : Controller
     {
-        [HttpGet]
-        public List<JsonBook> Get()
+        private readonly IBookRepository _bookRepsitory;
+        public BookController(IBookRepository bookRepository)
         {
-            MongoAccess da = new MongoAccess();
-            IEnumerable<Book> booksFromDb = da.GetBooks();
+            _bookRepsitory = bookRepository;
+        }
 
-            List<JsonBook> jsonBooks = new List<JsonBook>();
+        [HttpGet]
+        public List<BookView> Get()
+        {
+            IEnumerable<Book> booksFromDb = _bookRepsitory.GetBooks();
+
+            List<BookView> bookViews = new List<BookView>();
 
             foreach (Book book in booksFromDb)
             {
-                jsonBooks.Add(dbBookToJsonBook(book));
+                bookViews.Add(bookToBookView(book));
             }
 
-            return jsonBooks;
+            return bookViews;
         }
 
         [HttpGet("{id}")]
-        public JsonBook Get(string id)
+        public BookView Get(string id)
         {
-            MongoAccess da = new MongoAccess();
-            Book dbBook = da.GetBook(id);
+            Book book = _bookRepsitory.GetBook(id);
 
-            return dbBookToJsonBook(dbBook);
+            return bookToBookView(book);
         }
 
         [HttpPost]
-        public void Post([FromBody]JsonBook jsonBook)
+        public void Post([FromBody]BookView bookView)
         {
-            MongoAccess da = new MongoAccess();
-            Book dbBook = jsonBookToDbBook(jsonBook);
-            
-            da.Create(dbBook);
+            Book book = bookViewToBook(bookView);
+
+            _bookRepsitory.Create(book);
         }
 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]JsonBook jsonBook)
+        public void Put(string id, [FromBody]BookView bookView)
         {
-            MongoAccess da = new MongoAccess();
-            Book dbBook = jsonBookToDbBook(jsonBook);
+            Book book = bookViewToBook(bookView);
 
-            da.Update(id, dbBook);
+            _bookRepsitory.Update(id, book);
         }
 
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            MongoAccess da = new MongoAccess();
-
-            da.Remove(id);
+            _bookRepsitory.Remove(id);
         }
 
-        private JsonBook dbBookToJsonBook(Book dbBook)
+        private BookView bookToBookView(Book dbBook)
         {
-            JsonBook jsonBook = new JsonBook();
-            jsonBook.Id = dbBook.Id.ToString();
-            jsonBook.author = dbBook.author;
-            jsonBook.Title = dbBook.Title;
-            jsonBook.isbn = dbBook.isbn;
+            BookView bookView = new BookView();
+            bookView.Id = dbBook.Id.ToString();
+            bookView.author = dbBook.author;
+            bookView.Title = dbBook.Title;
+            bookView.isbn = dbBook.isbn;
 
-            return jsonBook;
+            return bookView;
         }
 
-        private Book jsonBookToDbBook(JsonBook jsonBook) {
+        private Book bookViewToBook(BookView bookView)
+        {
             Book dbBook = new Book();
 
-            dbBook.author = jsonBook.author;
-            dbBook.Title = jsonBook.Title;
-            dbBook.isbn = jsonBook.isbn;
+            dbBook.author = bookView.author;
+            dbBook.Title = bookView.Title;
+            dbBook.isbn = bookView.isbn;
 
             return dbBook;
         }

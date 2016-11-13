@@ -5,13 +5,13 @@ using System.Collections.Generic;
  
 namespace WebAPIApplication.DataAccess
 {
-    public class MongoAccess
+    public class BookRepository : IBookRepository
     {
         MongoClient _client;
         MongoServer _server;
         MongoDatabase _db;
  
-        public MongoAccess()
+        public BookRepository()
         {
             _client = new MongoClient("mongodb://localhost:27017");
             _server = _client.GetServer();

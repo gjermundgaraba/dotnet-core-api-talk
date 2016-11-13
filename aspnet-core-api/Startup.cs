@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebAPIApplication.DataAccess;
 
 namespace WebAPIApplication
 {
@@ -26,6 +27,8 @@ namespace WebAPIApplication
             // Add framework services.
             services.AddCors();
             services.AddMvc();
+
+            services.AddScoped<IBookRepository, BookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
