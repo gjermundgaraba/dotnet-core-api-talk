@@ -1,3 +1,33 @@
 <template>
-  <h1>${message}</h1>
+  <require from="materialize-css/css/materialize.css"></require>
+  <require from="./server/server"></require>
+  <require from="./call-selector/call-selector"></require>
+  <require from="./call-output/call-output"></require>
+  <require from="./call-input/call-input"></require>
+
+  <div class="container">
+    <div class="row teal lighten-2 white-text">
+      <div class="col s12">
+        <server></server>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col s3 red lighten-1">
+        <call-selector></call-selector>
+      </div>
+
+      <div class="col s9 grey lighten-2">
+        <md-card md-title="Call Input">
+          <call-input></call-input>
+        </md-card>
+        <md-card md-title="Card Output">
+          <call-output></call-output>
+        </md-card>
+      </div>
+
+    </div>
+  </div>
+
+
 </template>

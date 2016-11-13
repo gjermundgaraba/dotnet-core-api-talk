@@ -1,0 +1,8 @@
+<template>
+    <h3>PUT ${url}/${id}</h3>
+    <md-input md-label="Id" md-value.bind="id"></md-input>
+    <md-input md-label="Title" md-value.bind="title"></md-input>
+    <md-input md-label="Author" md-value.bind="author"></md-input>
+    <md-input md-label="ISBN" md-value.bind="isbn"></md-input>
+    <button md-button click.delegate="executeCall()">Execute Call</button>
+</template>

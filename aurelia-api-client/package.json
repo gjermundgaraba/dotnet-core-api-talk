@@ -10,6 +10,8 @@
   "dependencies": {
     "aurelia-animator-css": "^1.0.0",
     "aurelia-bootstrapper": "^1.0.0",
+    "aurelia-fetch-client": "^1.0.1",
+    "aurelia-materialize-bridge": "^0.19.0",
     "bluebird": "^3.4.1",
     "materialize-css": "^0.97.8",
     "requirejs": "^2.3.2",

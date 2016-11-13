@@ -1,0 +1,11 @@
+<template>
+    <require from="./get-call/get-call"></require>
+    <require from="./post-call/post-call"></require>
+    <require from="./put-call/put-call"></require>
+    <require from="./delete-call/delete-call"></require>
+    
+    <get-call if.bind="showGet"></get-call>
+    <post-call if.bind="showPost"></post-call>
+    <put-call if.bind="showPut"></put-call>
+    <delete-call if.bind="showDelete"></delete-call>
+</template>
