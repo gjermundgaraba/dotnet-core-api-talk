@@ -24,6 +24,7 @@ namespace WebAPIApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -32,6 +33,11 @@ namespace WebAPIApplication
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors(builder =>
+            builder.WithOrigins("http://localhost:9000")
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
             app.UseMvc();
         }
