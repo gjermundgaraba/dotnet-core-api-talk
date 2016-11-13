@@ -5,7 +5,7 @@ const bluebird   = require('bluebird');
 const cors       = require('cors');
 
 const config = require('./config');
-const bookRoutes = require('./model/book/book-router');
+const bookRoutes = require('./rest/book-router');
 
 const app  = express();
 
