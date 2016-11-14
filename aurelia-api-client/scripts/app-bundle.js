@@ -220,6 +220,40 @@ define('call-input/call-input',['exports', 'aurelia-framework', 'aurelia-event-a
         return CallInput;
     }()) || _class);
 });
+define('call-output/call-output',['exports', 'aurelia-framework', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.CallOutput = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var CallOutput = exports.CallOutput = (_dec = (0, _aureliaFramework.inject)(_aureliaEventAggregator.EventAggregator), _dec(_class = function CallOutput(eventAggregator) {
+        var _this = this;
+
+        _classCallCheck(this, CallOutput);
+
+        this.eventAggregator = eventAggregator;
+
+        var testObj = {
+            test: 1234,
+            kulest: "katrine"
+        };
+        this.serverResponse = JSON.stringify(testObj, null, 2);
+
+        this.messageReceivedSubscription = this.eventAggregator.subscribe('call-done', function (output) {
+            _this.serverResponse = output;
+        });
+    }) || _class);
+});
 define('call-selector/call-selector',['exports', 'aurelia-framework', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _aureliaEventAggregator) {
     'use strict';
 
@@ -262,33 +296,14 @@ define('call-selector/call-selector',['exports', 'aurelia-framework', 'aurelia-e
         return CallSelector;
     }()) || _class);
 });
-define('call-output/call-output',['exports', 'aurelia-framework', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _aureliaEventAggregator) {
-    'use strict';
+define('resources/index',["exports"], function (exports) {
+  "use strict";
 
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.CallOutput = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var CallOutput = exports.CallOutput = (_dec = (0, _aureliaFramework.inject)(_aureliaEventAggregator.EventAggregator), _dec(_class = function CallOutput(eventAggregator) {
-        var _this = this;
-
-        _classCallCheck(this, CallOutput);
-
-        this.eventAggregator = eventAggregator;
-
-        this.messageReceivedSubscription = this.eventAggregator.subscribe('call-done', function (output) {
-            _this.serverResponse = output;
-        });
-    }) || _class);
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
 });
 define('server/server',['exports', 'aurelia-framework', '../url-service'], function (exports, _aureliaFramework, _urlService) {
     'use strict';
@@ -322,14 +337,76 @@ define('server/server',['exports', 'aurelia-framework', '../url-service'], funct
         return Server;
     }()) || _class);
 });
-define('resources/index',["exports"], function (exports) {
-  "use strict";
+define('call-input/delete-call/delete-call',['exports', 'aurelia-framework', 'aurelia-event-aggregator', '../../url-service', 'aurelia-fetch-client', '../call-base'], function (exports, _aureliaFramework, _aureliaEventAggregator, _urlService, _aureliaFetchClient, _callBase) {
+    'use strict';
 
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.DeleteCall = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    function _possibleConstructorReturn(self, call) {
+        if (!self) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+
+        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    }
+
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+        }
+
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                enumerable: false,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    var _dec, _class;
+
+    var DeleteCall = exports.DeleteCall = (_dec = (0, _aureliaFramework.inject)(_urlService.UrlService, _aureliaEventAggregator.EventAggregator, _aureliaFetchClient.HttpClient), _dec(_class = function (_CallBase) {
+        _inherits(DeleteCall, _CallBase);
+
+        function DeleteCall(urlService, eventAggregator, httpClient) {
+            _classCallCheck(this, DeleteCall);
+
+            var _this = _possibleConstructorReturn(this, _CallBase.call(this, urlService, eventAggregator, httpClient, '/api/book'));
+
+            _this.id = "<SET-ME>";
+            return _this;
+        }
+
+        DeleteCall.prototype.executeCall = function executeCall() {
+            var _this2 = this;
+
+            this.httpClient.fetch(this.url + "/" + this.id, {
+                method: 'delete'
+            }).then(function (data) {
+                _this2.eventAggregator.publish('call-done', "200 OK");
+            }).catch(function (error) {
+                _this2.eventAggregator.publish('call-done', error);
+            });
+        };
+
+        DeleteCall.prototype._resetAllFields = function _resetAllFields() {
+            this.id = "";
+        };
+
+        return DeleteCall;
+    }(_callBase.CallBase)) || _class);
 });
 define('call-input/get-call/get-call',['exports', 'aurelia-framework', 'aurelia-event-aggregator', '../../url-service', 'aurelia-fetch-client', '../call-base'], function (exports, _aureliaFramework, _aureliaEventAggregator, _urlService, _aureliaFetchClient, _callBase) {
     'use strict';
@@ -565,168 +642,13 @@ define('call-input/put-call/put-call',['exports', 'aurelia-framework', 'aurelia-
         return PutCall;
     }(_callBase.CallBase)) || _class);
 });
-define('call-input/delete-call/put-call',['exports', 'aurelia-framework', 'aurelia-event-aggregator', '../../url-service', 'aurelia-fetch-client', '../call-base'], function (exports, _aureliaFramework, _aureliaEventAggregator, _urlService, _aureliaFetchClient, _callBase) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.PutCall = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    function _possibleConstructorReturn(self, call) {
-        if (!self) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-
-        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-    }
-
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-        }
-
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                enumerable: false,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-    }
-
-    var _dec, _class;
-
-    var PutCall = exports.PutCall = (_dec = (0, _aureliaFramework.inject)(_urlService.UrlService, _aureliaEventAggregator.EventAggregator, _aureliaFetchClient.HttpClient), _dec(_class = function (_CallBase) {
-        _inherits(PutCall, _CallBase);
-
-        function PutCall(urlService, eventAggregator, httpClient) {
-            _classCallCheck(this, PutCall);
-
-            var _this = _possibleConstructorReturn(this, _CallBase.call(this, urlService, eventAggregator, httpClient, '/api/book'));
-
-            _this.id = "<SET-ME>";
-            _this.title = "";
-            _this.author = "";
-            _this.isbn = "";
-            return _this;
-        }
-
-        PutCall.prototype.executeCall = function executeCall() {
-            var _this2 = this;
-
-            var postBody = {
-                Title: this.title,
-                Author: this.author,
-                isbn: this.isbn
-            };
-
-            this.httpClient.fetch(this.url + "/" + this.id, {
-                method: 'put',
-                body: (0, _aureliaFetchClient.json)(postBody)
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                _this2.eventAggregator.publish('call-done', data);
-            });
-        };
-
-        PutCall.prototype._resetAllFields = function _resetAllFields() {
-            this.title = "";
-            this.author = "";
-            this.isbn = "";
-        };
-
-        return PutCall;
-    }(_callBase.CallBase)) || _class);
-});
-define('call-input/delete-call/delete-call',['exports', 'aurelia-framework', 'aurelia-event-aggregator', '../../url-service', 'aurelia-fetch-client', '../call-base'], function (exports, _aureliaFramework, _aureliaEventAggregator, _urlService, _aureliaFetchClient, _callBase) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.DeleteCall = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    function _possibleConstructorReturn(self, call) {
-        if (!self) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-
-        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-    }
-
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-        }
-
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                enumerable: false,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-    }
-
-    var _dec, _class;
-
-    var DeleteCall = exports.DeleteCall = (_dec = (0, _aureliaFramework.inject)(_urlService.UrlService, _aureliaEventAggregator.EventAggregator, _aureliaFetchClient.HttpClient), _dec(_class = function (_CallBase) {
-        _inherits(DeleteCall, _CallBase);
-
-        function DeleteCall(urlService, eventAggregator, httpClient) {
-            _classCallCheck(this, DeleteCall);
-
-            var _this = _possibleConstructorReturn(this, _CallBase.call(this, urlService, eventAggregator, httpClient, '/api/book'));
-
-            _this.id = "<SET-ME>";
-            return _this;
-        }
-
-        DeleteCall.prototype.executeCall = function executeCall() {
-            var _this2 = this;
-
-            this.httpClient.fetch(this.url + "/" + this.id, {
-                method: 'delete'
-            }).then(function (data) {
-                _this2.eventAggregator.publish('call-done', "200 OK");
-            }).catch(function (error) {
-                _this2.eventAggregator.publish('call-done', error);
-            });
-        };
-
-        DeleteCall.prototype._resetAllFields = function _resetAllFields() {
-            this.id = "";
-        };
-
-        return DeleteCall;
-    }(_callBase.CallBase)) || _class);
-});
-define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"materialize-css/css/materialize.css\"></require>\n  <require from=\"./server/server\"></require>\n  <require from=\"./call-selector/call-selector\"></require>\n  <require from=\"./call-output/call-output\"></require>\n  <require from=\"./call-input/call-input\"></require>\n\n  <div class=\"container\">\n    <div class=\"row teal lighten-2 white-text\">\n      <div class=\"col s12\">\n        <server></server>\n      </div>\n    </div>\n    <div class=\"row\">\n\n      <div class=\"col s3 red lighten-1\">\n        <call-selector></call-selector>\n      </div>\n\n      <div class=\"col s9 grey lighten-2\">\n        <md-card md-title=\"Call Input\">\n          <call-input></call-input>\n        </md-card>\n        <md-card md-title=\"Card Output\">\n          <call-output></call-output>\n        </md-card>\n      </div>\n\n    </div>\n  </div>\n\n\n</template>"; });
-define('text!call-output/call-output.html', ['module'], function(module) { module.exports = "<template>\r\n    <pre>${serverResponse}</pre>\r\n</template>"; });
-define('text!call-input/call-input.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"./get-call/get-call\"></require>\r\n    <require from=\"./post-call/post-call\"></require>\r\n    <require from=\"./put-call/put-call\"></require>\r\n    <require from=\"./delete-call/delete-call\"></require>\r\n    \r\n    <get-call if.bind=\"showGet\"></get-call>\r\n    <post-call if.bind=\"showPost\"></post-call>\r\n    <put-call if.bind=\"showPut\"></put-call>\r\n    <delete-call if.bind=\"showDelete\"></delete-call>\r\n</template>"; });
-define('text!call-selector/call-selector.html', ['module'], function(module) { module.exports = "<template>\r\n    <p>\r\n        <button md-button click.delegate=\"changeToGet()\">GET /books</button>\r\n    </p>\r\n    <p>\r\n        <button md-button click.delegate=\"changeToPost()\">POST /books</button>\r\n    </p>\r\n    <p>\r\n        <button md-button click.delegate=\"changeToPut()\">PUT /books/id</button>\r\n    </p>\r\n    <p>\r\n        <button md-button click.delegate=\"changeToDelete()\">DELETE /books/id</button>\r\n    </p>\r\n</template>"; });
-define('text!server/server.html', ['module'], function(module) { module.exports = "<template>\r\n    <div style=\"position: relative\">\r\n        <button md-button class=\"blue lighten-5 right\" \r\n                style=\"position: absolute; top: 50%; transform: translateY(-50%); right: 0;\"\r\n                click.delegate=\"toggleServer()\">Toggle Server</button> \r\n        <h2>\r\n            <span>Server: ${server.name} (${server.baseUrl})</span>\r\n        </h2>\r\n    </div>\r\n</template>"; });
-define('text!call-input/get-call/get-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h3>GET ${url}</h3>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
-define('text!call-input/post-call/post-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h3>POST ${url}</h3>\r\n    <md-input md-label=\"Title\" md-value.bind=\"title\"></md-input>\r\n    <md-input md-label=\"Author\" md-value.bind=\"author\"></md-input>\r\n    <md-input md-label=\"ISBN\" md-value.bind=\"isbn\"></md-input>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
-define('text!call-input/put-call/put-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h3>PUT ${url}/${id}</h3>\r\n    <md-input md-label=\"Id\" md-value.bind=\"id\"></md-input>\r\n    <md-input md-label=\"Title\" md-value.bind=\"title\"></md-input>\r\n    <md-input md-label=\"Author\" md-value.bind=\"author\"></md-input>\r\n    <md-input md-label=\"ISBN\" md-value.bind=\"isbn\"></md-input>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
-define('text!call-input/delete-call/put-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h3>PUT ${url}/${id}</h3>\r\n    <md-input md-label=\"Id\" md-value.bind=\"id\"></md-input>\r\n    <md-input md-label=\"Title\" md-value.bind=\"title\"></md-input>\r\n    <md-input md-label=\"Author\" md-value.bind=\"author\"></md-input>\r\n    <md-input md-label=\"ISBN\" md-value.bind=\"isbn\"></md-input>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
-define('text!call-input/delete-call/delete-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h3>DELETE ${url}/${id}</h3>\r\n    <md-input md-label=\"Id\" md-value.bind=\"id\"></md-input>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\n  <require from=\"materialize-css/css/materialize.css\"></require>\n  <require from=\"./server/server\"></require>\n  <require from=\"./call-selector/call-selector\"></require>\n  <require from=\"./call-output/call-output\"></require>\n  <require from=\"./call-input/call-input\"></require>\n\n  <div class=\"container\">\n    <div class=\"row green lighten-2  orange-text text-accent-4\">\n      <div class=\"col s12\">\n        <server></server>\n      </div>\n    </div>\n    <div class=\"row\">\n\n      <div class=\"col s3 teal lighten-3\">\n        <call-selector></call-selector>\n      </div>\n\n      <div class=\"col s9 teal lighten-3\">\n        <md-card md-title=\"Call Input\">\n          <call-input></call-input>\n        </md-card>\n        <md-card md-title=\"Call Output\">\n          <call-output></call-output>\n        </md-card>\n      </div>\n\n    </div>\n  </div>\n\n\n</template>"; });
+define('text!call-output/call-output.html', ['module'], function(module) { module.exports = "<template>\n    <pre>${serverResponse}</pre>\n</template>"; });
+define('text!call-input/call-input.html', ['module'], function(module) { module.exports = "<template>\n    <require from=\"./get-call/get-call\"></require>\n    <require from=\"./post-call/post-call\"></require>\n    <require from=\"./put-call/put-call\"></require>\n    <require from=\"./delete-call/delete-call\"></require>\n    \n    <get-call if.bind=\"showGet\"></get-call>\n    <post-call if.bind=\"showPost\"></post-call>\n    <put-call if.bind=\"showPut\"></put-call>\n    <delete-call if.bind=\"showDelete\"></delete-call>\n</template>"; });
+define('text!call-selector/call-selector.html', ['module'], function(module) { module.exports = "<template>\n    <p>\n        <button md-button click.delegate=\"changeToGet()\">GET /books</button>\n    </p>\n    <p>\n        <button md-button click.delegate=\"changeToPost()\">POST /books</button>\n    </p>\n    <p>\n        <button md-button click.delegate=\"changeToPut()\">PUT /books/id</button>\n    </p>\n    <p>\n        <button md-button click.delegate=\"changeToDelete()\">DELETE /books/id</button>\n    </p>\n</template>"; });
+define('text!server/server.html', ['module'], function(module) { module.exports = "<template>\n    <div style=\"position: relative\">\n        <button md-button class=\"teal lighten-1 right\" \n                style=\"position: absolute; top: 50%; transform: translateY(-50%); right: 0;\"\n                click.delegate=\"toggleServer()\">Toggle Server</button> \n        <h2>\n            <span>Server: ${server.name} (${server.baseUrl})</span>\n        </h2>\n    </div>\n</template>"; });
+define('text!call-input/delete-call/delete-call.html', ['module'], function(module) { module.exports = "<template>\n    <h3>DELETE ${url}/${id}</h3>\n    <md-input md-label=\"Id\" md-value.bind=\"id\"></md-input>\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\n</template>"; });
+define('text!call-input/get-call/get-call.html', ['module'], function(module) { module.exports = "<template>\n    <h3>GET ${url}</h3>\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\n</template>"; });
+define('text!call-input/post-call/post-call.html', ['module'], function(module) { module.exports = "<template>\n    <h3>POST ${url}</h3>\n    <md-input md-label=\"Title\" md-value.bind=\"title\"></md-input>\n    <md-input md-label=\"Author\" md-value.bind=\"author\"></md-input>\n    <md-input md-label=\"ISBN\" md-value.bind=\"isbn\"></md-input>\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\n</template>"; });
+define('text!call-input/put-call/put-call.html', ['module'], function(module) { module.exports = "<template>\n    <h3>PUT ${url}/${id}</h3>\n    <md-input md-label=\"Id\" md-value.bind=\"id\"></md-input>\n    <md-input md-label=\"Title\" md-value.bind=\"title\"></md-input>\n    <md-input md-label=\"Author\" md-value.bind=\"author\"></md-input>\n    <md-input md-label=\"ISBN\" md-value.bind=\"isbn\"></md-input>\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\n</template>"; });
 //# sourceMappingURL=app-bundle.js.map
