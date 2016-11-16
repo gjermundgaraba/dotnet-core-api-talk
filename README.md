@@ -47,3 +47,15 @@ Install dependencies:
 Run the node-api server:
 
 ```npm start```
+
+# Set up java-api
+
+You have to have Java and Maven installed before running this.
+
+Build:
+
+```mvn clean install```
+
+Run:
+
+```java -jar target/java-api.jar```
