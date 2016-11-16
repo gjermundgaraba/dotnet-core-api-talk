@@ -13,9 +13,9 @@ class BookController {
         collection.forEach(function (book) {
           view.push({
             id: book.id,
-            title: book.Title,
-            author: book.Author,
-            isbn: book.isbn
+            title: book.Title ? book.Title : null,
+            author: book.Author ? book.Author : null,
+            isbn: book.isbn ? book.isbn : null
           })
         });
         res.status(200).json(view);
