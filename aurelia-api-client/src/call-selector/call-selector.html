@@ -1,14 +1,15 @@
 <template>
+    <require from="./call-selector.css"></require>
     <p>
-        <button md-button click.delegate="changeToGet()">GET /books</button>
+        <button class="selector-button" md-button click.delegate="changeToGet()">GET /books</button>
     </p>
     <p>
-        <button md-button click.delegate="changeToPost()">POST /books</button>
+        <button class="selector-button" md-button click.delegate="changeToPost()">POST /books</button>
     </p>
     <p>
-        <button md-button click.delegate="changeToPut()">PUT /books/id</button>
+        <button class="selector-button" md-button click.delegate="changeToPut()">PUT /books/id</button>
     </p>
     <p>
-        <button md-button click.delegate="changeToDelete()">DELETE /books/id</button>
+        <button class="selector-button" md-button click.delegate="changeToDelete()">DELETE /books/id</button>
     </p>
 </template>

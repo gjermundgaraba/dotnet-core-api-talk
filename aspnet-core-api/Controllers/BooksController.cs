@@ -5,10 +5,10 @@ using WebAPIApplication.DataAccess;
 namespace WebAPIApplication.Controllers
 {
     [Route("api/[controller]")]
-    public class BookController : Controller
+    public class BooksController : Controller
     {
         private readonly IBookRepository _bookRepsitory;
-        public BookController(IBookRepository bookRepository)
+        public BooksController(IBookRepository bookRepository)
         {
             _bookRepsitory = bookRepository;
         }
