@@ -9,24 +9,34 @@ class BookController {
   find(req, res, next) {
     return this.Book.find(req.query)
       .then(collection => {
-        res.status(200).json(collection);
+        let view = [];
+        collection.forEach(function (book) {
+          view.push({
+            id: book.id,
+            title: book.Title,
+            author: book.Author,
+            isbn: book.isbn
+          })
+        });
+        res.status(200).json(view);
       })
       .catch(err => next(err));
   }
 
   create(req, res, next) {
-    let book = new this.Book(req.body);
+    let book = new this.Book();
+    book.Title = req.body.title;
+    book.Author = req.body.author;
+    book.isbn = req.body.isbn;
 
     book.save()
-      .then(doc => res.status(201).json(doc))
-      .catch(err => next(err));
-  }
-
-  findById(req, res, next) {
-    return this.Book.findById(req.params.id)
       .then(doc => {
-        if (!doc) { return res.status(404).end(); }
-        return res.status(200).json(doc);
+        res.status(201).json({
+          id: doc.id,
+          title: doc.Title,
+          author: doc.Author,
+          isbn: doc.isbn
+        })
       })
       .catch(err => next(err));
   }
@@ -34,10 +44,19 @@ class BookController {
   update(req, res, next) {
     const conditions = { _id: req.params.id };
 
-    this.Book.update(conditions, req.body)
+    this.Book.update(conditions, {
+      Title: req.body.title,
+      Author: req.body.author,
+      isbn: req.body.isbn
+    })
       .then(doc => {
         if (!doc) { return res.status(404).end(); }
-        return res.status(200).json(doc);
+        return res.status(200).json({
+          id: doc.id,
+          title: doc.Title,
+          author: doc.Author,
+          isbn: doc.isbn
+        });
       })
       .catch(err => next(err));
   }
