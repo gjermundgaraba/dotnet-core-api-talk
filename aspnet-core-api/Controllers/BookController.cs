@@ -37,19 +37,23 @@ namespace WebAPIApplication.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody]BookView bookView)
+        public BookView Post([FromBody]BookView bookView)
         {
             Book book = bookViewToBook(bookView);
 
-            _bookRepsitory.Create(book);
+            Book savedBook = _bookRepsitory.Create(book);
+
+            return bookToBookView(savedBook);
         }
 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]BookView bookView)
+        public BookView Put(string id, [FromBody]BookView bookView)
         {
             Book book = bookViewToBook(bookView);
 
-            _bookRepsitory.Update(id, book);
+            Book savedBook = _bookRepsitory.Update(id, book);
+
+            return bookToBookView(savedBook);
         }
 
         [HttpDelete("{id}")]

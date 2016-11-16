@@ -37,13 +37,15 @@ namespace WebAPIApplication.DataAccess
             return p;
         }
  
-        public void Update(string id,Book p)
+        public Book Update(string id,Book p)
         {
             ObjectId objectId = new ObjectId(id);
             p.Id = objectId;
             var res = Query<Book>.EQ(pd => pd.Id, objectId);
             var operation = Update<Book>.Replace(p);
             _db.GetCollection<Book>("books").Update(res, operation);
+
+            return _db.GetCollection<Book>("books").FindOne(res);
         }
         public void Remove(string id)
         {
