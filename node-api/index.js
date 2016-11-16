@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/book', bookRoutes);
+app.use('/api/books', bookRoutes);
 
 app.listen(config.server.port, function () {
   console.log(`Server listening on port ${config.server.port}`);
