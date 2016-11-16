@@ -10,7 +10,7 @@ export class DeleteCall extends CallBase {
     id = "<SET-ME>";
 
     constructor(urlService, eventAggregator, httpClient) {
-        super(urlService, eventAggregator, httpClient, '/api/book');
+        super(urlService, eventAggregator, httpClient, '/api/books');
     }
 
     executeCall() {

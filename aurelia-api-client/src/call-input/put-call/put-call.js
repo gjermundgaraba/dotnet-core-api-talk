@@ -13,13 +13,13 @@ export class PutCall extends CallBase {
     isbn = "";
 
     constructor(urlService, eventAggregator, httpClient) {
-        super(urlService, eventAggregator, httpClient, '/api/book');
+        super(urlService, eventAggregator, httpClient, '/api/books');
     }
 
     executeCall() {
         const putBody = {
-            Title: this.title,
-            Author: this.author,
+            title: this.title,
+            author: this.author,
             isbn: this.isbn
         };
 

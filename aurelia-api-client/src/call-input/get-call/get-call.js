@@ -8,7 +8,7 @@ import { CallBase } from '../call-base'
 export class GetCall extends CallBase {
 
     constructor(urlService, eventAggregator, httpClient) {
-        super(urlService, eventAggregator, httpClient, '/api/book');
+        super(urlService, eventAggregator, httpClient, '/api/books');
     }
 
     executeCall() {
