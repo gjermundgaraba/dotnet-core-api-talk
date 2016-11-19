@@ -16,6 +16,7 @@
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",
+    "express-validator": "^2.21.0",
     "lodash": "^4.15.0",
     "mongoose": "^4.5.9"
   },

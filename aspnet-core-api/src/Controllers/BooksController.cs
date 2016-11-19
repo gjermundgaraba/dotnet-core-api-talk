@@ -28,32 +28,53 @@ namespace WebAPIApplication.Controllers
             return bookViews;
         }
 
-        [HttpGet("{id}")]
-        public BookView Get(string id)
-        {
-            Book book = _bookRepsitory.GetBook(id);
-
-            return bookToBookView(book);
-        }
-
         [HttpPost]
-        public BookView Post([FromBody]BookView bookView)
+        public IActionResult Post([FromBody]BookView bookView)
         {
-            Book book = bookViewToBook(bookView);
+            if (ModelState.IsValid)
+            {
+                Book book = bookViewToBook(bookView);
 
-            Book savedBook = _bookRepsitory.Create(book);
+                Book savedBook = _bookRepsitory.Create(book);
 
-            return bookToBookView(savedBook);
+                return new ObjectResult(bookToBookView(savedBook));
+            }
+            else
+            {
+                return handleModelStateError();
+            }
+
         }
 
         [HttpPut("{id}")]
-        public BookView Put(string id, [FromBody]BookView bookView)
+        public IActionResult Put(string id, [FromBody]BookView bookView)
         {
-            Book book = bookViewToBook(bookView);
+            if (ModelState.IsValid)
+            {
+                Book book = bookViewToBook(bookView);
 
-            Book savedBook = _bookRepsitory.Update(id, book);
+                Book savedBook = _bookRepsitory.Update(id, book);
 
-            return bookToBookView(savedBook);
+                return new ObjectResult(bookToBookView(savedBook));
+            }
+            else
+            {
+                return handleModelStateError();
+            }
+
+        }
+
+        private IActionResult handleModelStateError()
+        {
+            foreach (var modelError in ModelState)
+            {
+                string propertyName = modelError.Key;
+                if (modelError.Value.Errors.Count > 0)
+                {
+                    return new BadRequestObjectResult(propertyName + " is not valid");
+                }
+            }
+            return null;
         }
 
         [HttpDelete("{id}")]

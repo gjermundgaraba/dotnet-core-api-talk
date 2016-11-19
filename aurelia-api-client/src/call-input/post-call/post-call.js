@@ -9,7 +9,7 @@ export class PostCall extends CallBase {
 
     title = "";
     author = "";
-    isbn = "";
+    isbn = "978-3-16-148410-0";
 
     constructor(urlService, eventAggregator, httpClient) {
         super(urlService, eventAggregator, httpClient, '/api/books');

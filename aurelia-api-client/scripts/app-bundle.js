@@ -516,7 +516,7 @@ define('call-input/post-call/post-call',['exports', 'aurelia-framework', 'aureli
 
             _this.title = "";
             _this.author = "";
-            _this.isbn = "";
+            _this.isbn = "978-3-16-148410-0";
             return _this;
         }
 
@@ -601,7 +601,7 @@ define('call-input/put-call/put-call',['exports', 'aurelia-framework', 'aurelia-
             _this.id = "<SET-ME>";
             _this.title = "";
             _this.author = "";
-            _this.isbn = "";
+            _this.isbn = "978-3-16-148410-0";
             return _this;
         }
 
