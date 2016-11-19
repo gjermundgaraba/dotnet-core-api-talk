@@ -7,16 +7,16 @@ namespace WebAPIApplication.Controllers
     [Route("api/[controller]")]
     public class BooksController : Controller
     {
-        private readonly IBookRepository _bookRepsitory;
+        private readonly IBookRepository _bookRepository;
         public BooksController(IBookRepository bookRepository)
         {
-            _bookRepsitory = bookRepository;
+            _bookRepository = bookRepository;
         }
 
         [HttpGet]
         public List<BookView> Get()
         {
-            IEnumerable<Book> booksFromDb = _bookRepsitory.GetBooks();
+            IEnumerable<Book> booksFromDb = _bookRepository.GetBooks();
 
             List<BookView> bookViews = new List<BookView>();
 
@@ -35,7 +35,7 @@ namespace WebAPIApplication.Controllers
             {
                 Book book = bookViewToBook(bookView);
 
-                Book savedBook = _bookRepsitory.Create(book);
+                Book savedBook = _bookRepository.Create(book);
 
                 return new ObjectResult(bookToBookView(savedBook));
             }
@@ -53,7 +53,7 @@ namespace WebAPIApplication.Controllers
             {
                 Book book = bookViewToBook(bookView);
 
-                Book savedBook = _bookRepsitory.Update(id, book);
+                Book savedBook = _bookRepository.Update(id, book);
 
                 return new ObjectResult(bookToBookView(savedBook));
             }
@@ -80,7 +80,7 @@ namespace WebAPIApplication.Controllers
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            _bookRepsitory.Remove(id);
+            _bookRepository.Remove(id);
         }
 
         private BookView bookToBookView(Book dbBook)
