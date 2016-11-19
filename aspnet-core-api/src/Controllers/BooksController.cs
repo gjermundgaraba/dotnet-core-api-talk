@@ -73,7 +73,7 @@ namespace WebAPIApplication.Controllers
                 if (modelError.Value.Errors.Count > 0)
                 {
                     ErrorView errorView = new ErrorView();
-                    errorView.ErrorMessage = propertyName + " is not valid";
+                    errorView.ErrorMessage = "Invalid " + propertyName;
                     listOfErrors.Add(errorView);
                 }
             }
