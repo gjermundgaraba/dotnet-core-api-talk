@@ -66,15 +66,18 @@ namespace WebAPIApplication.Controllers
 
         private IActionResult handleModelStateError()
         {
+            List<ErrorView> listOfErrors = new List<ErrorView>();
             foreach (var modelError in ModelState)
             {
                 string propertyName = modelError.Key;
                 if (modelError.Value.Errors.Count > 0)
                 {
-                    return new BadRequestObjectResult(propertyName + " is not valid");
+                    ErrorView errorView = new ErrorView();
+                    errorView.ErrorMessage = propertyName + " is not valid";
+                    listOfErrors.Add(errorView);
                 }
             }
-            return null;
+            return new BadRequestObjectResult(listOfErrors);
         }
 
         [HttpDelete("{id}")]

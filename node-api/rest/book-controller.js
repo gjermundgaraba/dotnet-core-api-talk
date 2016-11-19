@@ -34,7 +34,7 @@ class BookController {
       let errorObj = [];
       errors.forEach(error => {
         errorObj.push({
-          error_msg: error.msg
+          errorMessage: error.msg
         })
       })
       res.status(400).send(errorObj);
@@ -68,7 +68,7 @@ class BookController {
       let errorObj = [];
       errors.forEach(error => {
         errorObj.push({
-          error_msg: error.msg
+          errorMessage: error.msg
         })
       })
       res.status(400).send(errorObj);
