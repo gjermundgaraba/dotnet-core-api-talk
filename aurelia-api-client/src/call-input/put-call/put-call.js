@@ -40,7 +40,7 @@ export class PutCall extends CallBase {
         this.id = "<SET-ME>";
         this.title = "";
         this.author = "";
-        this.isbn = "";
+        this.isbn = "978-3-16-148410-0";
     }
 
 }

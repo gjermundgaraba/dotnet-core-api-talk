@@ -11,9 +11,9 @@ namespace WebAPIApplication.Controllers
         public string Title { get; set; }
 
         [StringLength(60, MinimumLength = 3)]
-        public string author { get; set; }
+        public string Author { get; set; }
 
         [RegularExpression(@"(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})")]
-        public string isbn { get; set; }
+        public string Isbn { get; set; }
     }
 }

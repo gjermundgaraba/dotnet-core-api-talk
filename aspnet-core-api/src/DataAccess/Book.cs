@@ -9,13 +9,13 @@ namespace WebAPIApplication.DataAccess
     {
         public ObjectId Id { get; set; }
 
-        [BsonElement("Title")]
+        [BsonElement("title")]
         public string Title { get; set; }
         
-        [BsonElement("Author")]
-        public string author { get; set; }
+        [BsonElement("author")]
+        public string Author { get; set; }
         
         [BsonElement("isbn")]
-        public string isbn { get; set; }
+        public string Isbn { get; set; }
     }
 }

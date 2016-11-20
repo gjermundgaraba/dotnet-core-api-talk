@@ -4,12 +4,14 @@ import { UrlService } from '../../url-service';
 import { HttpClient, json } from 'aurelia-fetch-client';
 import { CallBase } from '../call-base'
 
+const defaultIsbn = "978-0345391803";
+
 @inject(UrlService, EventAggregator, HttpClient)
 export class PostCall extends CallBase {
 
     title = "";
     author = "";
-    isbn = "978-3-16-148410-0";
+    isbn = defaultIsbn;
 
     constructor(urlService, eventAggregator, httpClient) {
         super(urlService, eventAggregator, httpClient, '/api/books');
@@ -38,7 +40,7 @@ export class PostCall extends CallBase {
     _resetAllFields() {
         this.title = "";
         this.author = "";
-        this.isbn = "";
+        this.isbn = defaultIsbn;
     }
 
 }

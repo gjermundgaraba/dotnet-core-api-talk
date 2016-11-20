@@ -90,9 +90,9 @@ namespace WebAPIApplication.Controllers
         {
             BookView bookView = new BookView();
             bookView.Id = dbBook.Id.ToString();
-            bookView.author = dbBook.author;
+            bookView.Author = dbBook.Author;
             bookView.Title = dbBook.Title;
-            bookView.isbn = dbBook.isbn;
+            bookView.Isbn = dbBook.Isbn;
 
             return bookView;
         }
@@ -101,9 +101,9 @@ namespace WebAPIApplication.Controllers
         {
             Book dbBook = new Book();
 
-            dbBook.author = bookView.author;
+            dbBook.Author = bookView.Author;
             dbBook.Title = bookView.Title;
-            dbBook.isbn = bookView.isbn;
+            dbBook.Isbn = bookView.Isbn;
 
             return dbBook;
         }

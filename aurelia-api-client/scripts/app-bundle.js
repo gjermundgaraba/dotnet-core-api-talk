@@ -506,6 +506,8 @@ define('call-input/post-call/post-call',['exports', 'aurelia-framework', 'aureli
 
     var _dec, _class;
 
+    var defaultIsbn = "978-0345391803";
+
     var PostCall = exports.PostCall = (_dec = (0, _aureliaFramework.inject)(_urlService.UrlService, _aureliaEventAggregator.EventAggregator, _aureliaFetchClient.HttpClient), _dec(_class = function (_CallBase) {
         _inherits(PostCall, _CallBase);
 
@@ -516,7 +518,7 @@ define('call-input/post-call/post-call',['exports', 'aurelia-framework', 'aureli
 
             _this.title = "";
             _this.author = "";
-            _this.isbn = "978-3-16-148410-0";
+            _this.isbn = defaultIsbn;
             return _this;
         }
 
@@ -544,7 +546,7 @@ define('call-input/post-call/post-call',['exports', 'aurelia-framework', 'aureli
         PostCall.prototype._resetAllFields = function _resetAllFields() {
             this.title = "";
             this.author = "";
-            this.isbn = "";
+            this.isbn = defaultIsbn;
         };
 
         return PostCall;
@@ -630,7 +632,7 @@ define('call-input/put-call/put-call',['exports', 'aurelia-framework', 'aurelia-
             this.id = "<SET-ME>";
             this.title = "";
             this.author = "";
-            this.isbn = "";
+            this.isbn = "978-3-16-148410-0";
         };
 
         return PutCall;
