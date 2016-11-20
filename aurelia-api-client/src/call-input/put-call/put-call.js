@@ -23,15 +23,27 @@ export class PutCall extends CallBase {
             isbn: this.isbn
         };
 
+        let savedResponse;
         this.httpClient.fetch(this.url + "/" + this.id, {
             method: 'put',
             body: json(putBody)
         })
-            .then(response => response.json())
-            .then(data => {
-                this.eventAggregator.publish('call-done', JSON.stringify(data, undefined, 2));
+            .then(response => {
+                savedResponse = response;
+                var contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    return response.json();
+                }
+            })
+            .then(json => {
+                if (json) {
+                    this.eventAggregator.publish('call-done', JSON.stringify(json, undefined, 2));
+                } else {
+                    this.eventAggregator.publish('call-done', savedResponse.status + " " + savedResponse.statusText);
+                }
             })
             .catch(error => {
+                console.log("caught?");
                 this.eventAggregator.publish('call-done', error);
             });
     }

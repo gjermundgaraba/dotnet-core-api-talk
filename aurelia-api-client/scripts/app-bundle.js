@@ -389,7 +389,7 @@ define('call-input/delete-call/delete-call',['exports', 'aurelia-framework', 'au
             this.httpClient.fetch(this.url + "/" + this.id, {
                 method: 'delete'
             }).then(function (data) {
-                _this2.eventAggregator.publish('call-done', "200 OK");
+                _this2.eventAggregator.publish('call-done', data.status + " " + data.statusText);
             }).catch(function (error) {
                 _this2.eventAggregator.publish('call-done', error);
             });
@@ -616,14 +616,24 @@ define('call-input/put-call/put-call',['exports', 'aurelia-framework', 'aurelia-
                 isbn: this.isbn
             };
 
+            var savedResponse = void 0;
             this.httpClient.fetch(this.url + "/" + this.id, {
                 method: 'put',
                 body: (0, _aureliaFetchClient.json)(putBody)
             }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                _this2.eventAggregator.publish('call-done', JSON.stringify(data, undefined, 2));
+                savedResponse = response;
+                var contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    return response.json();
+                }
+            }).then(function (json) {
+                if (json) {
+                    _this2.eventAggregator.publish('call-done', JSON.stringify(json, undefined, 2));
+                } else {
+                    _this2.eventAggregator.publish('call-done', savedResponse.status + " " + savedResponse.statusText);
+                }
             }).catch(function (error) {
+                console.log("caught?");
                 _this2.eventAggregator.publish('call-done', error);
             });
         };

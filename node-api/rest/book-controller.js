@@ -1,4 +1,5 @@
 const bookSchema = require('../db/book-schema');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 class BookController {
 
@@ -49,11 +50,18 @@ class BookController {
 
   update(req, res, next) {
     var errors = this._validateModel(req);
+    const id = req.params.id;
 
     if (errors) {
       this._handleValidationError(errors, res);
     } else {
-      const conditions = { _id: req.params.id };
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(404).end();
+      }
+
+
+      const conditions = { _id: id };
 
       this.Book.update(conditions, {
         title: req.body.title,
@@ -61,12 +69,16 @@ class BookController {
         isbn: req.body.isbn
       })
         .then(doc => {
-          if (!doc) { return res.status(404).end(); }
+          console.log(doc);
+          if (!doc) {
+            res.status(404).end();
+          }
+
           return res.status(200).json({
-            id: doc.id,
-            title: doc.title,
-            author: doc.author,
-            isbn: doc.isbn
+            id: id,
+            title: req.body.title,
+            author: req.body.author,
+            isbn: req.body.isbn
           });
         })
         .catch(err => next(err));
@@ -74,6 +86,10 @@ class BookController {
   }
 
   remove(req, res, next) {
+    const id = req.params.id;
+    if (!ObjectId.isValid(id)) {
+      return res.status(404).end();
+    }
     this.Book.findByIdAndRemove(req.params.id)
       .then(doc => {
         if (!doc) { return res.status(404).end(); }

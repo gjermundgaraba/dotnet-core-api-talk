@@ -18,7 +18,7 @@ export class DeleteCall extends CallBase {
             method: 'delete'
         })
             .then(data => {
-                this.eventAggregator.publish('call-done', "200 OK");
+                this.eventAggregator.publish('call-done', data.status +  " " + data.statusText);
             })
             .catch(error => {
                 this.eventAggregator.publish('call-done', error);

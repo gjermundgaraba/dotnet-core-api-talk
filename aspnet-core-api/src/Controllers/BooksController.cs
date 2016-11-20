@@ -33,17 +33,19 @@ namespace WebAPIApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                Book book = bookViewToBook(bookView);
-
-                Book savedBook = _bookRepository.Create(book);
-
-                return new ObjectResult(bookToBookView(savedBook));
+                return createBook(bookView);
             }
             else
             {
                 return handleModelStateError();
             }
+        }
 
+        private IActionResult createBook(BookView bookView)
+        {
+            Book book = bookViewToBook(bookView);
+            Book savedBook = _bookRepository.Create(book);
+            return new ObjectResult(bookToBookView(savedBook));
         }
 
         [HttpPut("{id}")]
@@ -51,17 +53,26 @@ namespace WebAPIApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                Book book = bookViewToBook(bookView);
-
-                Book savedBook = _bookRepository.Update(id, book);
-
-                return new ObjectResult(bookToBookView(savedBook));
+                return updateBook(id, bookView);
             }
             else
             {
                 return handleModelStateError();
             }
+        }
 
+        private IActionResult updateBook(string id, BookView bookView)
+        {
+            if (bookExists(id))
+            {
+                Book book = bookViewToBook(bookView);
+                Book savedBook = _bookRepository.Update(id, book);
+                return new ObjectResult(bookToBookView(savedBook));
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         private IActionResult handleModelStateError()
@@ -81,11 +92,24 @@ namespace WebAPIApplication.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public IActionResult Delete(string id)
         {
-            _bookRepository.Remove(id);
+            if (bookExists(id))
+            {
+                _bookRepository.Remove(id);
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
+        private bool bookExists(string id)
+        {
+            Book book = _bookRepository.GetBook(id);
+            return book != null;
+        }
         private BookView bookToBookView(Book dbBook)
         {
             BookView bookView = new BookView();

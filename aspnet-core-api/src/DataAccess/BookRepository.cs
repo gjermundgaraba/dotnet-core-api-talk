@@ -26,7 +26,13 @@ namespace WebAPIApplication.DataAccess
  
         public Book GetBook(string id)
         {
-            ObjectId objectId = new ObjectId(id);
+            ObjectId objectId;
+            try {
+                objectId = new ObjectId(id);
+            } catch {
+                return null;
+            }
+            
             var res = Query<Book>.EQ(p => p.Id, objectId);
             return _db.GetCollection<Book>("books").FindOne(res);
         }
