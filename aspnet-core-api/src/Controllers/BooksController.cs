@@ -19,7 +19,6 @@ namespace WebAPIApplication.Controllers
             IEnumerable<Book> booksFromDb = _bookRepository.GetBooks();
 
             List<BookView> bookViews = new List<BookView>();
-
             foreach (Book book in booksFromDb)
             {
                 bookViews.Add(bookToBookView(book));
