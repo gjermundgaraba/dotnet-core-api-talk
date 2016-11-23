@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import server.data.Book;
 import server.data.BookRepository;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +30,14 @@ public class BookController {
     }
 
     @RequestMapping(method = POST, value = "/api/books")
-    public BookView createBook(@RequestBody BookView bookView) {
+    public BookView createBook(@Valid @RequestBody BookView bookView) {
         Book book = bookRepository.save(bookViewToBook(bookView));
 
         return bookToBookView(book);
     }
 
     @RequestMapping(method = PUT, value = "/api/books/{bookId}")
-    public BookView updateBook(@PathVariable("bookId") String bookId, @RequestBody BookView bookView) {
+    public BookView updateBook(@PathVariable("bookId") String bookId, @Valid @RequestBody BookView bookView) {
         Book book = bookRepository.findById(bookId);
 
         book.setTitle(bookView.getTitle());
