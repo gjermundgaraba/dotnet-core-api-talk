@@ -38,7 +38,7 @@ namespace WebAPIApplication
             loggerFactory.AddDebug();
 
             app.UseCors(builder =>
-            builder.WithOrigins("http://localhost:9000")
+            builder.WithOrigins("192.168.10.139")
                 .AllowAnyHeader()
                 .AllowAnyMethod());
 

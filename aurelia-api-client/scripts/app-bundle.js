@@ -117,34 +117,6 @@ define('url-service',['exports', 'aurelia-framework', 'aurelia-event-aggregator'
         return UrlService;
     }()) || _class);
 });
-define('call-output/call-output',['exports', 'aurelia-framework', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.CallOutput = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var CallOutput = exports.CallOutput = (_dec = (0, _aureliaFramework.inject)(_aureliaEventAggregator.EventAggregator), _dec(_class = function CallOutput(eventAggregator) {
-        var _this = this;
-
-        _classCallCheck(this, CallOutput);
-
-        this.eventAggregator = eventAggregator;
-
-        this.messageReceivedSubscription = this.eventAggregator.subscribe('call-done', function (output) {
-            _this.serverResponse = output;
-        });
-    }) || _class);
-});
 define('call-input/call-base',['exports'], function (exports) {
     'use strict';
 
@@ -247,6 +219,34 @@ define('call-input/call-input',['exports', 'aurelia-framework', 'aurelia-event-a
 
         return CallInput;
     }()) || _class);
+});
+define('call-output/call-output',['exports', 'aurelia-framework', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.CallOutput = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var CallOutput = exports.CallOutput = (_dec = (0, _aureliaFramework.inject)(_aureliaEventAggregator.EventAggregator), _dec(_class = function CallOutput(eventAggregator) {
+        var _this = this;
+
+        _classCallCheck(this, CallOutput);
+
+        this.eventAggregator = eventAggregator;
+
+        this.messageReceivedSubscription = this.eventAggregator.subscribe('call-done', function (output) {
+            _this.serverResponse = output;
+        });
+    }) || _class);
 });
 define('call-selector/call-selector',['exports', 'aurelia-framework', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _aureliaEventAggregator) {
     'use strict';
@@ -649,15 +649,15 @@ define('call-input/put-call/put-call',['exports', 'aurelia-framework', 'aurelia-
     }(_callBase.CallBase)) || _class);
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\r\n  <require from=\"materialize-css/css/materialize.css\"></require>\r\n  <require from=\"./server/server\"></require>\r\n  <require from=\"./call-selector/call-selector\"></require>\r\n  <require from=\"./call-output/call-output\"></require>\r\n  <require from=\"./call-input/call-input\"></require>\r\n  <require from=\"./app.css\"></require>\r\n\r\n  <div class=\"container\">\r\n    <div class=\"row teal lighten-3\">\r\n      <div class=\"col s12\">\r\n        <md-card>\r\n        <server></server>\r\n        </md-card>\r\n      </div>\r\n    </div>\r\n    <div class=\"row row-eq-height\">\r\n\r\n      <div class=\"col s3 teal lighten-3\">\r\n        <call-selector></call-selector>\r\n      </div>\r\n\r\n      <div class=\"col s9 teal lighten-3\">\r\n        <md-card md-title=\"Call Input\">\r\n          <call-input></call-input>\r\n        </md-card>\r\n        <md-card md-title=\"Call Output\">\r\n          <call-output></call-output>\r\n        </md-card>\r\n      </div>\r\n\r\n    </div>\r\n  </div>\r\n\r\n\r\n</template>"; });
+define('text!app.css', ['module'], function(module) { module.exports = ".row-eq-height {\r\n    display: flex;\r\n}"; });
+define('text!call-input/call-input.css', ['module'], function(module) { module.exports = "h5 {\r\n    word-wrap:break-word;\r\n}"; });
 define('text!call-input/call-input.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"./get-call/get-call\"></require>\r\n    <require from=\"./post-call/post-call\"></require>\r\n    <require from=\"./put-call/put-call\"></require>\r\n    <require from=\"./delete-call/delete-call\"></require>\r\n    <require from=\"./call-input.css\"></require>\r\n    \r\n    <get-call if.bind=\"showGet\"></get-call>\r\n    <post-call if.bind=\"showPost\"></post-call>\r\n    <put-call if.bind=\"showPut\"></put-call>\r\n    <delete-call if.bind=\"showDelete\"></delete-call>\r\n</template>"; });
-define('text!call-selector/call-selector.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"./call-selector.css\"></require>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToGet()\">GET /books</button>\r\n    </p>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToPost()\">POST /books</button>\r\n    </p>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToPut()\">PUT /books/id</button>\r\n    </p>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToDelete()\">DELETE /books/id</button>\r\n    </p>\r\n</template>"; });
 define('text!call-output/call-output.html', ['module'], function(module) { module.exports = "<template>\r\n    <pre>${serverResponse}</pre>\r\n</template>"; });
+define('text!call-selector/call-selector.css', ['module'], function(module) { module.exports = ".selector-button {\r\n    width: 100%;\r\n}"; });
+define('text!call-selector/call-selector.html', ['module'], function(module) { module.exports = "<template>\r\n    <require from=\"./call-selector.css\"></require>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToGet()\">GET /books</button>\r\n    </p>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToPost()\">POST /books</button>\r\n    </p>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToPut()\">PUT /books/id</button>\r\n    </p>\r\n    <p>\r\n        <button class=\"selector-button\" md-button click.delegate=\"changeToDelete()\">DELETE /books/id</button>\r\n    </p>\r\n</template>"; });
 define('text!server/server.html', ['module'], function(module) { module.exports = "<template>\r\n    <div style=\"position: relative\">\r\n        <button md-button class=\"teal lighten-1 right\" \r\n                style=\"position: absolute; top: 50%; transform: translateY(-50%); right: 0;\"\r\n                click.delegate=\"toggleServer()\">Toggle Server</button> \r\n        <h3>\r\n            <span>Server: ${server.name}</span>\r\n        </h3>\r\n    </div>\r\n</template>"; });
 define('text!call-input/delete-call/delete-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h5>DELETE ${url}/${id}</h5>\r\n    <md-input md-label=\"Id\" md-value.bind=\"id\"></md-input>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
 define('text!call-input/get-call/get-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h5>GET ${url}</h5>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
 define('text!call-input/post-call/post-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h5>POST ${url}</h5>\r\n    <md-input md-label=\"Title\" md-value.bind=\"title\"></md-input>\r\n    <md-input md-label=\"Author\" md-value.bind=\"author\"></md-input>\r\n    <md-input md-label=\"ISBN\" md-value.bind=\"isbn\"></md-input>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
 define('text!call-input/put-call/put-call.html', ['module'], function(module) { module.exports = "<template>\r\n    <h5>PUT ${url}/${id}</h5>\r\n    <md-input md-label=\"Id\" md-value.bind=\"id\"></md-input>\r\n    <md-input md-label=\"Title\" md-value.bind=\"title\"></md-input>\r\n    <md-input md-label=\"Author\" md-value.bind=\"author\"></md-input>\r\n    <md-input md-label=\"ISBN\" md-value.bind=\"isbn\"></md-input>\r\n    <button md-button click.delegate=\"executeCall()\">Execute Call</button>\r\n</template>"; });
-define('text!app.css', ['module'], function(module) { module.exports = ".row-eq-height {\r\n    display: flex;\r\n}"; });
-define('text!call-input/call-input.css', ['module'], function(module) { module.exports = "h5 {\r\n    word-wrap:break-word;\r\n}"; });
-define('text!call-selector/call-selector.css', ['module'], function(module) { module.exports = ".selector-button {\r\n    width: 100%;\r\n}"; });
 //# sourceMappingURL=app-bundle.js.map
