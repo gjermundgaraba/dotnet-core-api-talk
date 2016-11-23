@@ -10,10 +10,10 @@ public class Book {
     @Id
     private String id;
 
-    @Field("Title")
+    @Field("title")
     private String title;
 
-    @Field("Author")
+    @Field("author")
     private String author;
 
     @Field("isbn")
