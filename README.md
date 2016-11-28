@@ -6,6 +6,8 @@ The premise of the talk was to find out if .NET core (ASP.NET Core) can be a goo
 I also wrote a blog post about the same topic (based on the talk, in fact):
 [http://www.gjermundbjaanes.com/dot-net-core-for-your-web-apis/](http://www.gjermundbjaanes.com/dot-net-core-for-your-web-apis/)
 
+![Client Screenshot](https://github.com/bjaanes/dotnet-core-api-talk/raw/master/aurelia_client_screenshot.png "Client Screenshot")
+
 # Prerequisites 
 
 * NodeJS
