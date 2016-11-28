@@ -1,7 +1,10 @@
 # dotnet-core-api-talk
 All code for my .NET Core API talk
 
-The premise of the talk is to find out if .NET core (ASP.NET Core) can be a good solution for your REST API's.
+The premise of the talk was to find out if .NET core (ASP.NET Core) can be a good solution for your REST API's.
+
+I also wrote a blog post about the same topic (based on the talk, in fact):
+[http://www.gjermundbjaanes.com/dot-net-core-for-your-web-apis/](http://www.gjermundbjaanes.com/dot-net-core-for-your-web-apis/)
 
 # Prerequisites 
 
